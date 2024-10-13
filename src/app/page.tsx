@@ -37,29 +37,21 @@ export default function HomePage() {
   };
 
   const handleOurRes = () => {
-    if (!(counter === 0)) {
-      setCounter(counter - 1);
-    } else if (ourGoods) {
-      setOurGoods(false);
-      setCounter(15);
-    }
+    ourGoods && counter === 1 ? (setOurGoods(false), setCounter(15)) : setCounter(counter - 1);
   };
   const handleTheySum = () => {
     setSecondCounter(secondCounter + 1);
   };
 
   const handleTheyRes = () => {
-    if (!(secondCounter === 0)) {
-      setSecondCounter(secondCounter - 1);
-    } else if (theyGoods) {
-      setTheyGoods(false);
-      setSecondCounter(15);
-    }
+    theyGoods && secondCounter === 1
+      ? (setTheyGoods(false), setSecondCounter(15))
+      : setSecondCounter(secondCounter - 1);
   };
 
   const isGoods = () => {
-    counter > 15 ? (setOurGoods(true), setCounter(0)) : "";
-    secondCounter > 15 ? (setTheyGoods(true), setSecondCounter(0)) : "";
+    counter > 15 ? (setOurGoods(true), setCounter(1)) : "";
+    secondCounter > 15 ? (setTheyGoods(true), setSecondCounter(1)) : "";
   };
 
   const isWin = () => {
@@ -115,9 +107,9 @@ export default function HomePage() {
           <CardHeader>
             <CardTitle className="flex justify-center">Nosotros</CardTitle>
             <CardDescription className="flex justify-center">
-              {ourGoods ? "Goods" : "Bads"}
+              {ourGoods ? "Buenas" : "Malas"}
             </CardDescription>
-            <CardDescription>Score: {counter}</CardDescription>
+            <CardDescription>Puntaje: {counter}</CardDescription>
           </CardHeader>
           <CardContent className="flex justify-between">
             <Button className="bg-white text-black" variant="outline" onClick={handleOurRes}>
@@ -138,9 +130,9 @@ export default function HomePage() {
           <CardHeader>
             <CardTitle className="flex justify-center">Ellos</CardTitle>
             <CardDescription className="flex justify-center">
-              {theyGoods ? "Goods" : "Bads"}
+              {theyGoods ? "Buenas" : "Malas"}
             </CardDescription>
-            <CardDescription>Score: {secondCounter}</CardDescription>
+            <CardDescription>Puntaje: {secondCounter}</CardDescription>
           </CardHeader>
           <CardContent className="flex justify-between">
             <Button className="bg-white text-black" variant="outline" onClick={handleTheyRes}>

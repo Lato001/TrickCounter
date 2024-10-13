@@ -47,9 +47,9 @@ export default function HomePage() {
 
   const isWin = () => {
     counter > 15 && ourGoods
-      ? (setWin(true), console.log("Gano el jugador 1"))
+      ? (setWin(true), alert("Gano el jugador 1"))
       : secondCounter > 15 && theyGoods
-        ? (setWin(true), console.log("Gano el jugador 2"))
+        ? (setWin(true), alert("Gano el jugador 2"))
         : "";
   };
 

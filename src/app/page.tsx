@@ -18,7 +18,8 @@ export default function HomePage() {
 
   ///ESTADOS DE BUENAS, MALAS Y GANADOR
   const [ourGoods, setOurGoods] = useState<boolean>(false);
-  const [win, setWin] = useState<boolean>(false);
+  const [theyGoods, setTheyGoods] = useState<boolean>(false);
+  const [win, setWin] = useState<boolean | null>(null);
 
   const handleOurSum = () => {
     setCounter(counter + 1);
@@ -39,26 +40,47 @@ export default function HomePage() {
     }
   };
 
-  const isOurGoods = () => {
-    counter > 15 ? setOurGoods(true) : setOurGoods(false);
+  const isGoods = () => {
+    counter > 15 ? (setOurGoods(true), resetCounter()) : "";
+    secondCounter > 15 ? (setTheyGoods(true), resetSecondCounter()) : "";
   };
 
   const isWin = () => {
-    counter > 29
+    counter > 15 && ourGoods
       ? (setWin(true), console.log("Gano el jugador 1"))
-      : secondCounter > 29
+      : secondCounter > 15 && theyGoods
         ? (setWin(true), console.log("Gano el jugador 2"))
         : "";
   };
 
+  const resetCounter = () => {
+    setCounter(0);
+  };
+  const resetSecondCounter = () => {
+    setSecondCounter(0);
+  };
+  const resetGame = () => {
+    setCounter(0);
+    setSecondCounter(0);
+    setOurGoods(false);
+    setTheyGoods(false);
+    setWin(false);
+  };
+
   useEffect(() => {
-    isOurGoods();
+    isGoods();
     isWin();
   }, [counter, secondCounter]);
 
+  useEffect(() => {
+    if (win) {
+      resetGame();
+    }
+  }, [win]);
+
   return (
     <div className="flex items-center justify-evenly">
-      <Card className="w-60">
+      <Card className="w-60 hover:cursor-pointer hover:border-white">
         <CardHeader>
           <CardTitle className="flex justify-center">Nosotros</CardTitle>
           <CardDescription className="flex justify-center">
@@ -70,12 +92,16 @@ export default function HomePage() {
           <Button onClick={handleOurSum}>Sumar</Button>
           <Button onClick={handleOurRes}>Restar</Button>
         </CardContent>
+        <CardFooter className="flex justify-center">
+          <Button onClick={resetCounter}>Reset</Button>
+        </CardFooter>
       </Card>
-      <Card className="w-60">
+
+      <Card className="w-60 hover:cursor-pointer hover:border-white ">
         <CardHeader>
           <CardTitle className="flex justify-center">Ellos</CardTitle>
           <CardDescription className="flex justify-center">
-            {ourGoods ? "Buenas" : "Malas"}
+            {theyGoods ? "Buenas" : "Malas"}
           </CardDescription>
           <CardDescription>Puntaje: {secondCounter}</CardDescription>
         </CardHeader>
@@ -83,6 +109,9 @@ export default function HomePage() {
           <Button onClick={handleTheySum}>Sumar</Button>
           <Button onClick={handleTheyRes}>Restar</Button>
         </CardContent>
+        <CardFooter className="flex justify-center">
+          <Button onClick={resetSecondCounter}>Reset</Button>
+        </CardFooter>
       </Card>
     </div>
   );
